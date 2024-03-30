@@ -2,10 +2,10 @@
 private void main()
 {
     Print()
-    Console.WriteLine("Tchau, carinha!")
+    Console.WriteLine("Tchau, carinaldo!")
 }
 
 public void Print()
 {
-    Console.WriteLine("Hello, carinha!!!!!!!!!!!!");
+    Console.WriteLine("Hello, carinaldo!");
 }
