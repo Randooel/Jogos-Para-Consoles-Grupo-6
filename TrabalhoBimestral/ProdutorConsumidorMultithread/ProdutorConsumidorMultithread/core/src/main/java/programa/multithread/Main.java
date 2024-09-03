@@ -2,7 +2,6 @@ package programa.multithread;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +12,11 @@ public class Main extends ApplicationAdapter {
     private Texture image;
     private BitmapFont font;
 
-    private Produtor produtor;
-    private Consumidor consumidor;
     private Armazen armazem;
+    private Produtor produtorCarinaldo;
+    private Produtor produtorAstrolabio;
+    private Produtor produtorPedronildo;
+    private Consumidor consumidor;
 
     @Override
     public void create() {
@@ -25,10 +26,16 @@ public class Main extends ApplicationAdapter {
 
         armazem = new Armazen(5);
 
-        produtor = new ProdutorCarinaldo(armazem);
+        produtorCarinaldo = new ProdutorCarinaldo(armazem);
+        produtorAstrolabio = new ProdutorAstrolabio(armazem);
+        produtorPedronildo = new ProdutorPedronildo(armazem);
+
         consumidor = new Consumidor("Consumidor1", 3.0);
 
-        produtor.iniciarProducao();
+        produtorCarinaldo.iniciarProducao();
+        produtorAstrolabio.iniciarProducao();
+        produtorPedronildo.iniciarProducao();
+
         consumidor.consumirRecurso(armazem);
     }
 

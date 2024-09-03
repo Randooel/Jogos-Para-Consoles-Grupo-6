@@ -1,40 +1,26 @@
 package programa.multithread;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class Produtor {
+public abstract class Produtor {
 
     private String nome;
     private double velocidadeProducao;
-    private List<Recurso.RecursoBase> recursosDisponiveis;
-    private Random random;
     private Armazen armazem;
+    private Random random;
 
     public Produtor(String nome, double velocidadeProducao, Armazen armazem) {
         this.nome = nome;
         this.velocidadeProducao = velocidadeProducao;
         this.armazem = armazem;
-        recursosDisponiveis = new ArrayList<>();
-        random = new Random();
-
-        recursosDisponiveis.add(new Recurso.Madeira(nome));
-        recursosDisponiveis.add(new Recurso.Pedra(nome));
-        recursosDisponiveis.add(new Recurso.Ferro(nome));
+        this.random = new Random();
     }
 
     public String getNome() {
         return nome;
     }
 
-    public Recurso.RecursoBase coletarRecurso() {
-        if (recursosDisponiveis.isEmpty()) {
-            throw new IllegalStateException("Nenhum recurso disponível para coleta.");
-        }
-        int idAleatorio = random.nextInt(recursosDisponiveis.size());
-        return recursosDisponiveis.get(idAleatorio);
-    }
+    public abstract Recurso.RecursoBase coletarRecurso();  // Cada produtor define o recurso específico
 
     public void iniciarProducao() {
         new Thread(() -> {
@@ -42,9 +28,8 @@ public class Produtor {
                 try {
                     if (armazem.isCheio()) {
                         System.out.println("O armazém está cheio. Aguardando espaço para continuar a produção...");
-                        // Aguarda um tempo antes de tentar produzir novamente
                         Thread.sleep(1000);
-                        continue; // Continua o loop para verificar novamente se há espaço
+                        continue;
                     }
 
                     long startTime = System.currentTimeMillis();
