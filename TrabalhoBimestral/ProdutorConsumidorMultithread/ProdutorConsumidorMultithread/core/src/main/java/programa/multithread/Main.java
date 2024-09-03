@@ -16,7 +16,9 @@ public class Main extends ApplicationAdapter {
     private Produtor produtorCarinaldo;
     private Produtor produtorAstrolabio;
     private Produtor produtorPedronildo;
-    private Consumidor consumidor;
+    private Consumidor consumidorA;
+    private Consumidor consumidorB;
+    private Consumidor consumidorC;
 
     @Override
     public void create() {
@@ -30,13 +32,17 @@ public class Main extends ApplicationAdapter {
         produtorAstrolabio = new ProdutorAstrolabio(armazem);
         produtorPedronildo = new ProdutorPedronildo(armazem);
 
-        consumidor = new Consumidor("Consumidor1", 3.0);
+        consumidorA = new ConsumidorA("ConsumidorA", 3.0);
+        consumidorB = new ConsumidorB("ConsumidorB", 2.0);
+        consumidorC = new ConsumidorC("ConsumidorC", 4.0);
 
         produtorCarinaldo.iniciarProducao();
         produtorAstrolabio.iniciarProducao();
         produtorPedronildo.iniciarProducao();
 
-        consumidor.consumirRecurso(armazem);
+        consumidorA.consumirRecurso(armazem);
+        consumidorB.consumirRecurso(armazem);
+        consumidorC.consumirRecurso(armazem);
     }
 
     @Override

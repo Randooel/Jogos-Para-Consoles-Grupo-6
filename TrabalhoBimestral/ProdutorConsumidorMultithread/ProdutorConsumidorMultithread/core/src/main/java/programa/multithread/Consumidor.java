@@ -3,7 +3,7 @@ package programa.multithread;
 import java.util.Random;
 
 public class Consumidor {
-    
+
     private String nome;
     private double velocidadeConsumo;
     private Random random;
@@ -43,7 +43,6 @@ public class Consumidor {
 
     // Método para utilizar o recurso consumido
     public void utilizarRecurso(String recurso) {
-   
         System.out.println(nome + " está utilizando o recurso: " + recurso);
     }
 
@@ -55,5 +54,10 @@ public class Consumidor {
     // Método para obter a velocidade de consumo
     public double getVelocidadeConsumo() {
         return velocidadeConsumo;
+    }
+
+    // Adicionado método getNome()
+    public String getNome() {
+        return nome;
     }
 }
