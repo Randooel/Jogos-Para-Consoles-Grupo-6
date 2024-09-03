@@ -2,7 +2,7 @@ package programa.multithread;
 
 public class ProdutorPedronildo extends Produtor {
 	
-	public ProdutorPedronildo () {
-		super("Produtor de Pedra", 2.0);
+	public ProdutorPedronildo (Armazen armazem) {
+		super("Pedronildo - Pedra", 2.0, armazem);
 	}
 }

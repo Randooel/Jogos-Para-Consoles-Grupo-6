@@ -22,8 +22,8 @@ public class Main extends ApplicationAdapter {
         image = new Texture(Gdx.files.internal("libgdx.png"));
         font = new BitmapFont();
 
-        produtor = new Produtor("Produtor1", 2.0);
         armazem = new Armazen(5);
+        produtor = new Produtor("Produtor1", 2.0, armazem);
 
         produtor.iniciarProducao();
     }
@@ -31,9 +31,6 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-
-        Recurso.RecursoBase recursoColetado = produtor.coletarRecurso();
-        armazem.adicionarRecurso(recursoColetado.getTipo());
 
         batch.begin();
         batch.draw(image, 140, 210);

@@ -8,6 +8,7 @@ public class Armazen {
     private List<String> itens;
     private double capacidadeMaxima;
     private String ultimoRecurso;
+    private boolean isCheioPrinted = false;
 
     public Armazen(double capacidadeMaxima) {
         this.itens = new ArrayList<>();
@@ -17,10 +18,13 @@ public class Armazen {
     public void adicionarRecurso(String novoItem) {
         if (this.itens.size() < capacidadeMaxima) {
             this.itens.add(novoItem);
-            this.ultimoRecurso = novoItem;
+            this.ultimoRecurso = novoItem; // Atualiza o último recurso
             System.out.println("Recurso " + novoItem + " foi adicionado ao armazém.");
         } else {
-            System.out.println("Armazém cheio! Não é possível adicionar mais recursos.");
+            if (!isCheioPrinted) {
+                System.out.println("Armazém cheio! Não é possível adicionar mais recursos.");
+                isCheioPrinted = true;
+            }
         }
     }
 
@@ -30,5 +34,9 @@ public class Armazen {
 
     public String getUltimoRecurso() {
         return this.ultimoRecurso;
+    }
+
+    public boolean isCheio() {
+        return this.itens.size() >= capacidadeMaxima;
     }
 }
