@@ -7,6 +7,7 @@ public class Armazen {
 
     private List<String> itens;
     private double capacidadeMaxima;
+    private String ultimoRecurso;
 
     public Armazen(double capacidadeMaxima) {
         this.itens = new ArrayList<>();
@@ -16,18 +17,18 @@ public class Armazen {
     public void adicionarRecurso(String novoItem) {
         if (this.itens.size() < capacidadeMaxima) {
             this.itens.add(novoItem);
+            this.ultimoRecurso = novoItem;
             System.out.println("Recurso " + novoItem + " foi adicionado ao armazém.");
+        } else {
+            System.out.println("Armazém cheio! Não é possível adicionar mais recursos.");
         }
     }
 
     public List<String> getItens() {
         return this.itens;
     }
-    
+
     public String getUltimoRecurso() {
-        if (!itens.isEmpty()) {
-            return itens.get(itens.size() - 1);
-        }
-        return "Nenhum recurso";
+        return this.ultimoRecurso;
     }
 }

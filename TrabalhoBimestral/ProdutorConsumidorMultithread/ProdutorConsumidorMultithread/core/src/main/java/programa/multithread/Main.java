@@ -19,10 +19,10 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+        image = new Texture(Gdx.files.internal("libgdx.png"));
         font = new BitmapFont();
 
-        produtor = new Produtor(2.0);
+        produtor = new Produtor("Produtor1", 2.0);
         armazem = new Armazen(5);
 
         produtor.iniciarProducao();
