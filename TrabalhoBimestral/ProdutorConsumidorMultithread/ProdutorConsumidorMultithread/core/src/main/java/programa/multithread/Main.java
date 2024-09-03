@@ -22,8 +22,9 @@ public class Main extends ApplicationAdapter {
         image = new Texture(Gdx.files.internal("libgdx.png"));
         font = new BitmapFont();
 
-        produtor = new Produtor("Produtor1", 2.0);
         armazem = new Armazen(5);
+
+        produtor = new ProdutorCarinaldo(armazem);
 
         produtor.iniciarProducao();
     }
@@ -31,9 +32,6 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-
-        Recurso.RecursoBase recursoColetado = produtor.coletarRecurso();
-        armazem.adicionarRecurso(recursoColetado.getTipo());
 
         batch.begin();
         batch.draw(image, 140, 210);
@@ -45,7 +43,9 @@ public class Main extends ApplicationAdapter {
             y -= 20;
         }
 
-        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 40);
+        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 20);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, y - 40);
+        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, y - 60);
 
         batch.end();
     }
