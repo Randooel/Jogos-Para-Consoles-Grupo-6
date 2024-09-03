@@ -6,12 +6,14 @@ import java.util.Random;
 
 public class Produtor {
     
+	private String nome;
     private double velocidadeProducao;
     private List<Recurso.RecursoBase> recursosDisponiveis;
     private Random random;
 
     // Construtor
-    public Produtor(double velocidadeProducao) {
+    public Produtor(String nome, double velocidadeProducao) {
+    	this.nome = nome;
         this.velocidadeProducao = velocidadeProducao;
         recursosDisponiveis = new ArrayList<>();
         random = new Random();
@@ -21,6 +23,11 @@ public class Produtor {
         recursosDisponiveis.add(new Recurso.Pedra());
         recursosDisponiveis.add(new Recurso.Ferro());
     }
+    
+    public String getNome() {
+    	return nome;
+    }
+    
 
     // Coleta um recurso aleatório
     public Recurso.RecursoBase coletarRecurso() {
