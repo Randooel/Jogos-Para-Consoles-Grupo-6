@@ -19,9 +19,9 @@ public class Produtor {
         recursosDisponiveis = new ArrayList<>();
         random = new Random();
 
-        recursosDisponiveis.add(new Recurso.Madeira());
-        recursosDisponiveis.add(new Recurso.Pedra());
-        recursosDisponiveis.add(new Recurso.Ferro());
+        recursosDisponiveis.add(new Recurso.Madeira(nome));
+        recursosDisponiveis.add(new Recurso.Pedra(nome));
+        recursosDisponiveis.add(new Recurso.Ferro(nome));
     }
 
     public String getNome() {
@@ -48,11 +48,13 @@ public class Produtor {
                     long startTime = System.currentTimeMillis();
                     Thread.sleep((long) (velocidadeProducao * 1000));
                     Recurso.RecursoBase recurso = coletarRecurso();
-                    armazem.adicionarRecurso(recurso.getTipo());
+                    armazem.adicionarRecurso(recurso.getTipo(), recurso.getProdutorNome());
                     long endTime = System.currentTimeMillis();
 
                     long timeTaken = endTime - startTime;
-                    System.out.println("Produtor " + getNome() + " produziu " + recurso.getTipo() + " em " + timeTaken + " milissegundos.");
+                    String mensagem = "Produtor " + getNome() + " produziu " + recurso.getTipo() + " em " + timeTaken + " milissegundos.";
+                    System.out.println(mensagem);
+                    armazem.setUltimaMensagem(mensagem);
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();

@@ -23,7 +23,8 @@ public class Main extends ApplicationAdapter {
         font = new BitmapFont();
 
         armazem = new Armazen(5);
-        produtor = new Produtor("Produtor1", 2.0, armazem);
+
+        produtor = new ProdutorCarinaldo(armazem);
 
         produtor.iniciarProducao();
     }
@@ -42,7 +43,9 @@ public class Main extends ApplicationAdapter {
             y -= 20;
         }
 
-        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 40);
+        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 20);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, y - 40);
+        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, y - 60);
 
         batch.end();
     }

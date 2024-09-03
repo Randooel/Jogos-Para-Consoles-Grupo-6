@@ -4,27 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Armazen {
-
     private List<String> itens;
     private double capacidadeMaxima;
     private String ultimoRecurso;
-    private boolean isCheioPrinted = false;
+    private String ultimoProdutor;
+    private String ultimaMensagem;
 
     public Armazen(double capacidadeMaxima) {
         this.itens = new ArrayList<>();
         this.capacidadeMaxima = capacidadeMaxima;
+        this.ultimoRecurso = "";
+        this.ultimoProdutor = "";
+        this.ultimaMensagem = "";
     }
 
-    public void adicionarRecurso(String novoItem) {
+    public void adicionarRecurso(String novoItem, String produtorNome) {
         if (this.itens.size() < capacidadeMaxima) {
             this.itens.add(novoItem);
-            this.ultimoRecurso = novoItem; // Atualiza o último recurso
-            System.out.println("Recurso " + novoItem + " foi adicionado ao armazém.");
+            this.ultimoRecurso = novoItem;
+            this.ultimoProdutor = produtorNome;
+            this.ultimaMensagem = "Recurso " + novoItem + " foi adicionado ao armazém por " + produtorNome + ".";
         } else {
-            if (!isCheioPrinted) {
-                System.out.println("Armazém cheio! Não é possível adicionar mais recursos.");
-                isCheioPrinted = true;
-            }
+            this.ultimaMensagem = "Armazém cheio! Não é possível adicionar mais recursos.";
         }
     }
 
@@ -33,10 +34,22 @@ public class Armazen {
     }
 
     public String getUltimoRecurso() {
-        return this.ultimoRecurso;
+        return ultimoRecurso;
+    }
+
+    public String getUltimoProdutor() {
+        return ultimoProdutor;
+    }
+
+    public String getUltimaMensagem() {
+        return ultimaMensagem;
     }
 
     public boolean isCheio() {
-        return this.itens.size() >= capacidadeMaxima;
+        return itens.size() >= capacidadeMaxima;
+    }
+
+    public void setUltimaMensagem(String mensagem) {
+        this.ultimaMensagem = mensagem;
     }
 }
