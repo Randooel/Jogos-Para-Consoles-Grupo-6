@@ -2,7 +2,6 @@ package programa.multithread;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,8 +27,13 @@ public class Main extends ApplicationAdapter {
         produtor = new ProdutorCarinaldo(armazem);
         consumidor = new Consumidor("Consumidor1", 3.0);
 
-        produtor.iniciarProducao();
-        consumidor.consumirRecurso(armazem);
+        // Produção e consumo de recursos de forma sequencial
+        for (int i = 0; i < 5; i++) {
+            // Produtor produz
+            produtor.produzirRecurso();
+            // Consumidor consome
+            consumidor.consumirRecurso(armazem);
+        }
     }
 
     @Override
