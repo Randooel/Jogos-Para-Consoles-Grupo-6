@@ -1,55 +1,43 @@
 package programa.multithread;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Armazen {
-    private List<String> itens;
-    private double capacidadeMaxima;
-    private String ultimoRecurso;
-    private String ultimoProdutor;
-    private String ultimaMensagem;
+    private final Queue<String> recursos;
+    private final int capacidade;
 
-    public Armazen(double capacidadeMaxima) {
-        this.itens = new ArrayList<>();
-        this.capacidadeMaxima = capacidadeMaxima;
-        this.ultimoRecurso = "";
-        this.ultimoProdutor = "";
-        this.ultimaMensagem = "";
+    public Armazen(int capacidade) {
+        this.recursos = new LinkedList<>();
+        this.capacidade = capacidade;
     }
 
-    public void adicionarRecurso(String novoItem, String produtorNome) {
-        if (this.itens.size() < capacidadeMaxima) {
-            this.itens.add(novoItem);
-            this.ultimoRecurso = novoItem;
-            this.ultimoProdutor = produtorNome;
-            this.ultimaMensagem = "Recurso " + novoItem + " foi adicionado ao armazém por " + produtorNome + ".";
-        } else {
-            this.ultimaMensagem = "Armazém cheio! Não é possível adicionar mais recursos.";
+    public synchronized boolean isCheio() {
+        return recursos.size() == capacidade;
+    }
+
+    public synchronized boolean isVazio() {
+        return recursos.isEmpty();
+    }
+
+    public synchronized void adicionarRecurso(String recurso) {
+        if (!isCheio()) {
+            recursos.add(recurso);
         }
     }
 
-    public List<String> getItens() {
-        return this.itens;
+    public synchronized String removerRecurso() {
+        if (!isVazio()) {
+            return recursos.poll();
+        }
+        return null;
     }
 
-    public String getUltimoRecurso() {
-        return ultimoRecurso;
+    public synchronized String getUltimoRecurso() {
+        return recursos.peek();
     }
 
-    public String getUltimoProdutor() {
-        return ultimoProdutor;
-    }
-
-    public String getUltimaMensagem() {
-        return ultimaMensagem;
-    }
-
-    public boolean isCheio() {
-        return itens.size() >= capacidadeMaxima;
-    }
-
-    public void setUltimaMensagem(String mensagem) {
-        this.ultimaMensagem = mensagem;
+    public synchronized Iterable<String> getItens() {
+        return recursos;
     }
 }

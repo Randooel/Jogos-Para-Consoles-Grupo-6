@@ -1,59 +1,31 @@
 package programa.multithread;
 
-import java.util.Random;
+public class Consumidor implements Runnable {
+    private final String nome;
+    private final double velocidadeConsumo;
+    private final Armazen armazem;
 
-public class Consumidor {
-    
-    private String nome;
-    private double velocidadeConsumo;
-    private Random random;
-
-    // Construtor
-    public Consumidor(String nome, double velocidadeConsumo) {
+    public Consumidor(String nome, double velocidadeConsumo, Armazen armazem) {
         this.nome = nome;
         this.velocidadeConsumo = velocidadeConsumo;
-        this.random = new Random();
+        this.armazem = armazem;
     }
 
-    // Método para consumir um recurso do armazém
-    public void consumirRecurso(Armazen armazem) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
-                    Thread.sleep((long) (velocidadeConsumo * 1000));
+    public void iniciarConsumo() {
+        new Thread(this).start();
+    }
 
-                    if (!armazem.getItens().isEmpty()) {
-                        // Remove o recurso mais antigo ou pode fazer uma lógica de prioridade
-                        String recurso = armazem.getItens().remove(0);
-                        System.out.println(nome + " consumiu o recurso: " + recurso);
-
-                        // Aqui você pode adicionar lógica para usar o recurso consumido, por exemplo, construir um item
-                        utilizarRecurso(recurso);
-                    } else {
-                        System.out.println("Armazém vazio! " + nome + " está esperando por novos recursos.");
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
+    @Override
+    public void run() {
+        try {
+            while (!armazem.isVazio()) {
+                Thread.sleep((long) (velocidadeConsumo * 1000));
+                String recurso = armazem.removerRecurso();
+                System.out.println("Consumidor " + nome + " consumiu: " + recurso);
             }
-        }).start();
-    }
-
-    // Método para utilizar o recurso consumido
-    public void utilizarRecurso(String recurso) {
-   
-        System.out.println(nome + " está utilizando o recurso: " + recurso);
-    }
-
-    // Método para definir a velocidade de consumo
-    public void setVelocidadeConsumo(double velocidade) {
-        this.velocidadeConsumo = velocidade;
-    }
-
-    // Método para obter a velocidade de consumo
-    public double getVelocidadeConsumo() {
-        return velocidadeConsumo;
+            System.out.println("O armazém está vazio. Consumidor parando o consumo.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
