@@ -36,7 +36,6 @@ public class Main extends ApplicationAdapter {
         this.produtores = new Produtor[3];
         this.consumidores = new Consumidor[3];
         
-
         armazem = new Armazen(5);
         
         produtorCarinaldo = new ProdutorCarinaldo(armazem);
@@ -78,9 +77,9 @@ public class Main extends ApplicationAdapter {
             y -= 20;
         }
 
-        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 200, 20);
-        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 200, 40);
-        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 200, 60);
+        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 20);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, y - 40);
+        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, y - 60);
 
         batch.end();
     }
