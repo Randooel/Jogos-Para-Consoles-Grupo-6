@@ -2,7 +2,7 @@ package programa.multithread;
 
 import java.util.Random;
 
-public abstract class Produtor {
+public abstract class Produtor extends Thread{
 
     private String nome;
     private double velocidadeProducao;
@@ -22,8 +22,7 @@ public abstract class Produtor {
 
     public abstract Recurso.RecursoBase coletarRecurso();  // Cada produtor define o recurso específico
 
-    public void iniciarProducao() {
-        new Thread(() -> {
+    public void run() {
             while (true) {
                 try {
                     if (armazem.isCheio()) {
@@ -48,7 +47,6 @@ public abstract class Produtor {
                     break;
                 }
             }
-        }).start();
     }
 
     public void setVelocidadeProducao(double velocidade) {

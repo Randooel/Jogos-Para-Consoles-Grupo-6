@@ -2,43 +2,43 @@ package programa.multithread;
 
 import java.util.Random;
 
-public class Consumidor {
+public class Consumidor extends Thread {
 
     private String nome;
     private double velocidadeConsumo;
     private Random random;
+    private Armazen armazem;
 
     // Construtor
-    public Consumidor(String nome, double velocidadeConsumo) {
-        this.nome = nome;
+    public Consumidor(Armazen armazen, String nome, double velocidadeConsumo) {
+        this.armazem = armazen;
+    	this.nome = nome;
         this.velocidadeConsumo = velocidadeConsumo;
         this.random = new Random();
     }
 
-    // Método para consumir um recurso do armazém
-    public void consumirRecurso(Armazen armazem) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
-                    Thread.sleep((long) (velocidadeConsumo * 1000));
+    @Override
+    public void run() {
+    	while (true) {
+            try {
+                // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
+                Thread.sleep((long) (velocidadeConsumo * 1000));
 
-                    if (!armazem.getItens().isEmpty()) {
-                        // Remove o recurso mais antigo ou pode fazer uma lógica de prioridade
-                        String recurso = armazem.getItens().remove(0);
-                        System.out.println(nome + " consumiu o recurso: " + recurso);
+                if (!armazem.getItens().isEmpty()) {
+                    // Remove o recurso mais antigo ou pode fazer uma lógica de prioridade
+                    String recurso = armazem.getItens().remove(0);
+                    System.out.println(nome + " consumiu o recurso: " + recurso);
 
-                        // Aqui você pode adicionar lógica para usar o recurso consumido, por exemplo, construir um item
-                        utilizarRecurso(recurso);
-                    } else {
-                        System.out.println("Armazém vazio! " + nome + " está esperando por novos recursos.");
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
+                    // Aqui você pode adicionar lógica para usar o recurso consumido, por exemplo, construir um item
+                    utilizarRecurso(recurso);
+                } else {
+                    System.out.println("Armazém vazio! " + nome + " está esperando por novos recursos.");
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
             }
-        }).start();
+        }
     }
 
     // Método para utilizar o recurso consumido

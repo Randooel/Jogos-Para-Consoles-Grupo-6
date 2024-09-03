@@ -2,6 +2,7 @@ package programa.multithread;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class Armazen {
     private List<String> itens;
@@ -9,6 +10,8 @@ public class Armazen {
     private String ultimoRecurso;
     private String ultimoProdutor;
     private String ultimaMensagem;
+    
+    Semaphore enterElevatorSemaphore = new Semaphore(1);
 
     public Armazen(double capacidadeMaxima) {
         this.itens = new ArrayList<>();
@@ -19,6 +22,13 @@ public class Armazen {
     }
 
     public void adicionarRecurso(String novoItem, String produtorNome) {
+    	
+    	try {
+			enterElevatorSemaphore.acquire();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	
         if (this.itens.size() < capacidadeMaxima) {
             this.itens.add(novoItem);
             this.ultimoRecurso = novoItem;
@@ -27,6 +37,8 @@ public class Armazen {
         } else {
             this.ultimaMensagem = "Armazém cheio! Não é possível adicionar mais recursos.";
         }
+        
+        enterElevatorSemaphore.release();
     }
 
     public List<String> getItens() {
