@@ -7,11 +7,11 @@ public class ConsumidorC extends Consumidor {
     }
 
     @Override
-    public void utilizarRecurso(String recurso) {
-        if (recurso.equals("Pedra") || recurso.equals("Ferro")) {
-            super.utilizarRecurso(recurso);
+    public void consumirRecurso(Armazen armazem) {
+        if (armazem.equals("Pedra") || armazem.equals("Ferro")) {
+            super.consumirRecurso(armazem);
         } else {
-            System.out.println(getNome() + " não pode utilizar o recurso: " + recurso);
+            System.out.println(getNome() + " não pode utilizar o recurso: " + armazem);
         }
     }
 }

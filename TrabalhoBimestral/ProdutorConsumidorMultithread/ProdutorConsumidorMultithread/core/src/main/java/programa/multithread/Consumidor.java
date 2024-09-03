@@ -1,5 +1,7 @@
 package programa.multithread;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Consumidor {
@@ -8,55 +10,76 @@ public class Consumidor {
     private double velocidadeConsumo;
     private Random random;
 
-    // Construtor
+    private List<String> produtos;
+    private List<String> recursosConsumidos;
+
     public Consumidor(String nome, double velocidadeConsumo) {
         this.nome = nome;
         this.velocidadeConsumo = velocidadeConsumo;
         this.random = new Random();
+        this.produtos = new ArrayList<>();
+        this.recursosConsumidos = new ArrayList<>();
     }
 
-    // Método para consumir um recurso do armazém
     public void consumirRecurso(Armazen armazem) {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
-                    Thread.sleep((long) (velocidadeConsumo * 1000));
+        while (true) {
+            try {
+                Thread.sleep((long) (velocidadeConsumo * 1000));
 
-                    if (!armazem.getItens().isEmpty()) {
-                        // Remove o recurso mais antigo ou pode fazer uma lógica de prioridade
-                        String recurso = armazem.getItens().remove(0);
-                        System.out.println(nome + " consumiu o recurso: " + recurso);
+                if (!armazem.getItens().isEmpty()) {
+                    String recurso = armazem.getItens().remove(0);
+                    System.out.println(nome + " consumiu o recurso: " + recurso);
 
-                        // Aqui você pode adicionar lógica para usar o recurso consumido, por exemplo, construir um item
-                        utilizarRecurso(recurso);
-                    } else {
-                        System.out.println("Armazém vazio! " + nome + " está esperando por novos recursos.");
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    recursosConsumidos.add(recurso);
+
+                    construirProduto();
+                } else {
+                    System.out.println("Armazém vazio! " + nome + " está esperando por novos recursos.");
                     break;
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
             }
-        }).start();
+        }
     }
 
-    // Método para utilizar o recurso consumido
-    public void utilizarRecurso(String recurso) {
-        System.out.println(nome + " está utilizando o recurso: " + recurso);
+    public void construirProduto() {
+        if (recursosConsumidos.contains("Madeira") && recursosConsumidos.contains("Pedra")) {
+            produtos.add("Parede de Madeira e Pedra");
+            System.out.println(nome + " construiu: Parede de Madeira e Pedra");
+            recursosConsumidos.remove("Madeira");
+            recursosConsumidos.remove("Pedra");
+        } else if (recursosConsumidos.contains("Madeira") && recursosConsumidos.contains("Ferro")) {
+            produtos.add("Parede de Madeira e Ferro");
+            System.out.println(nome + " construiu: Parede de Madeira e Ferro");
+            recursosConsumidos.remove("Madeira");
+            recursosConsumidos.remove("Ferro");
+        } else if (recursosConsumidos.contains("Pedra")) {
+            produtos.add("Parede de Pedra");
+            System.out.println(nome + " construiu: Parede de Pedra");
+            recursosConsumidos.remove("Pedra");
+        } else if (recursosConsumidos.contains("Ferro")) {
+            produtos.add("Parede de Ferro");
+            System.out.println(nome + " construiu: Parede de Ferro");
+            recursosConsumidos.remove("Ferro");
+        } else if (recursosConsumidos.contains("Madeira")) {
+            produtos.add("Parede de Madeira");
+            System.out.println(nome + " construiu: Parede de Madeira");
+            recursosConsumidos.remove("Madeira");
+        } else {
+            System.out.println(nome + " não conseguiu construir nenhum produto com os materiais disponíveis.");
+        }
     }
 
-    // Método para definir a velocidade de consumo
     public void setVelocidadeConsumo(double velocidade) {
         this.velocidadeConsumo = velocidade;
     }
 
-    // Método para obter a velocidade de consumo
     public double getVelocidadeConsumo() {
         return velocidadeConsumo;
     }
 
-    // Adicionado método getNome()
     public String getNome() {
         return nome;
     }
