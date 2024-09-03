@@ -27,11 +27,8 @@ public class Main extends ApplicationAdapter {
         produtor = new ProdutorCarinaldo(armazem);
         consumidor = new Consumidor("Consumidor1", 3.0);
 
-        // Produção e consumo de recursos de forma sequencial
         for (int i = 0; i < 5; i++) {
-            // Produtor produz
             produtor.produzirRecurso();
-            // Consumidor consome
             consumidor.consumirRecurso(armazem);
         }
     }
