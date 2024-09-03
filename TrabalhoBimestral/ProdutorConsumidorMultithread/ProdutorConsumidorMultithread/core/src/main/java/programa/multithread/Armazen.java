@@ -17,12 +17,17 @@ public class Armazen {
         if (this.itens.size() < capacidadeMaxima) {
             this.itens.add(novoItem);
             System.out.println("Recurso " + novoItem + " foi adicionado ao armazém.");
-        } else {
-            System.out.println("Armazém cheio! Não é possível adicionar mais recursos.");
         }
     }
 
     public List<String> getItens() {
         return this.itens;
+    }
+    
+    public String getUltimoRecurso() {
+        if (!itens.isEmpty()) {
+            return itens.get(itens.size() - 1);
+        }
+        return "Nenhum recurso";
     }
 }
