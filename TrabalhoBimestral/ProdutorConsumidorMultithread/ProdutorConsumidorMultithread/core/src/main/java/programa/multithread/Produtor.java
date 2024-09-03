@@ -41,8 +41,10 @@ public class Produtor {
             while (true) {
                 try {
                     if (armazem.isCheio()) {
-                        System.out.println("O armazém está cheio. Parando a produção.");
-                        break;
+                        System.out.println("O armazém está cheio. Aguardando espaço para continuar a produção...");
+                        // Aguarda um tempo antes de tentar produzir novamente
+                        Thread.sleep(1000);
+                        continue; // Continua o loop para verificar novamente se há espaço
                     }
 
                     long startTime = System.currentTimeMillis();

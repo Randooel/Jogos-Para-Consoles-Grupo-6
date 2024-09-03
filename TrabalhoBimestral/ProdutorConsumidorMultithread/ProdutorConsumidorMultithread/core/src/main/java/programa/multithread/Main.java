@@ -26,7 +26,7 @@ public class Main extends ApplicationAdapter {
         armazem = new Armazen(5);
 
         produtor = new ProdutorCarinaldo(armazem);
-        consumidor = new Consumidor("Consumidor1", 5.0);
+        consumidor = new Consumidor("Consumidor1", 3.0);
 
         produtor.iniciarProducao();
         consumidor.consumirRecurso(armazem);
