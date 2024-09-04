@@ -2,25 +2,25 @@ package programa.multithread;
 
 import java.util.Random;
 
-public abstract class Produtor extends Thread{
+public class Produtor extends Thread{
 
     private String nome;
     private double velocidadeProducao;
     private Armazen armazem;
+    protected int recursoID;
     private Random random;
 
-    public Produtor(String nome, double velocidadeProducao, Armazen armazem) {
+    public Produtor(String nome, double velocidadeProducao, Armazen armazem,int recursoID) {
         this.nome = nome;
         this.velocidadeProducao = velocidadeProducao;
         this.armazem = armazem;
         this.random = new Random();
+        this.recursoID = recursoID;
     }
 
     public String getNome() {
         return nome;
     }
-
-    public abstract Recurso.RecursoBase coletarRecurso();  // Cada produtor define o recurso específico
 
     public void run() {
             while (true) {
@@ -33,12 +33,12 @@ public abstract class Produtor extends Thread{
 
                     long startTime = System.currentTimeMillis();
                     Thread.sleep((long) (velocidadeProducao * 1000));
-                    Recurso.RecursoBase recurso = coletarRecurso();
-                    armazem.adicionarRecurso(recurso.getTipo(), recurso.getProdutorNome());
+                    
+                    armazem.adicionarRecurso(recursoID, nome);
                     long endTime = System.currentTimeMillis();
 
                     long timeTaken = endTime - startTime;
-                    String mensagem = "Produtor " + getNome() + " produziu " + recurso.getTipo() + " em " + timeTaken + " milissegundos.";
+                    String mensagem = "Produtor " + getNome() + " produziu " + armazem.GetRecurso(recursoID) + " em " + timeTaken + " milissegundos.";
                     System.out.println(mensagem);
                     armazem.setUltimaMensagem(mensagem);
 

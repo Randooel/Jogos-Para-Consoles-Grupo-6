@@ -7,12 +7,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import programa.multithread.Recurso.Ferro;
+import programa.multithread.Recurso.Madeira;
+import programa.multithread.Recurso.Pedra;
+
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
     private BitmapFont font;
 
     private Armazen armazem;
+    
+    
     
     private Produtor[] produtores;
     
@@ -32,15 +38,16 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         image = new Texture(Gdx.files.internal("libgdx.png"));
         font = new BitmapFont();
+       
         
         this.produtores = new Produtor[3];
         this.consumidores = new Consumidor[3];
         
         armazem = new Armazen(5);
         
-        produtorCarinaldo = new ProdutorCarinaldo(armazem);
-        produtorAstrolabio = new ProdutorAstrolabio(armazem);
-        produtorPedronildo = new ProdutorPedronildo(armazem);
+        produtorCarinaldo = new Produtor("Carinaldo", 2.0, armazem, 0);
+        produtorAstrolabio = new Produtor("Astrolabio", 2.5, armazem, 1);
+        produtorPedronildo = new Produtor("Pedronildo", 1.5, armazem, 2);
         
         produtores[0] = produtorCarinaldo;
         produtores[1] = produtorAstrolabio;
@@ -50,9 +57,9 @@ public class Main extends ApplicationAdapter {
         	produtores[i].start();
         }
 
-        consumidorA = new ConsumidorA(armazem,"ConsumidorA", 3.0);
-        consumidorB = new ConsumidorB(armazem,"ConsumidorB", 2.0);
-        consumidorC = new ConsumidorC(armazem,"ConsumidorC", 4.0);
+        consumidorA = new Consumidor("ConsumidorA", 3.0,armazem, 0,1,3);
+        consumidorB = new Consumidor("ConsumidorB", 2.0,armazem,0,2,4);
+        consumidorC = new Consumidor("ConsumidorC", 4.0,armazem,1,2,5);
 
         consumidores[0] = consumidorA;
         consumidores[1] = consumidorB;
@@ -62,6 +69,8 @@ public class Main extends ApplicationAdapter {
         	consumidores[i].start();
         }
     }
+    
+   
 
     @Override
     public void render() {
@@ -71,16 +80,18 @@ public class Main extends ApplicationAdapter {
         batch.draw(image, 140, 210);
 
         font.draw(batch, "Itens no armazém:", 20, 420);
-        int y = 400;
+        int x = 400;
         for (String item : armazem.getItens()) {
-            font.draw(batch, "- " + item, 20, y);
-            y -= 20;
+            font.draw(batch, "- " + item, 20, x);
+            x -= 20;
         }
 
-        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, y - 20);
-        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, y - 40);
-        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, y - 60);
+        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, 280);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, 260);
+        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, 240);
 
+        int y = 400;
+        
         batch.end();
     }
 

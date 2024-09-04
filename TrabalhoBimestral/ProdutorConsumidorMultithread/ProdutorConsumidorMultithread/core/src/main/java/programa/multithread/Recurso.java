@@ -1,40 +1,58 @@
 package programa.multithread;
 
-public abstract class Recurso {
+public class Recurso {
 
-    public static abstract class RecursoBase {
+    public class RecursoBase {
         private String tipo;
-        private String produtorNome;
 
-        public RecursoBase(String tipo, String produtorNome) {
+        public RecursoBase GetRecurso() {
+        	return this;
+        }
+        
+        public RecursoBase(String tipo) {
             this.tipo = tipo;
-            this.produtorNome = produtorNome;
         }
 
         public String getTipo() {
             return tipo;
         }
+    }
 
-        public String getProdutorNome() {
-            return produtorNome;
+    public class Madeira extends RecursoBase {
+        public Madeira() {
+            super("Madeira");
         }
     }
 
-    public static class Madeira extends RecursoBase {
-        public Madeira(String produtorNome) {
-            super("Madeira", produtorNome);
+    public class Pedra extends RecursoBase {
+        public Pedra() {
+            super("Pedra");
         }
     }
 
-    public static class Pedra extends RecursoBase {
-        public Pedra(String produtorNome) {
-            super("Pedra", produtorNome);
+    public class Ferro extends RecursoBase {
+        public Ferro() {
+            super("Ferro");
+        }
+    }
+    
+    public class ParedeDeMadeiraPedra extends RecursoBase {
+        public ParedeDeMadeiraPedra() {
+            super("ParedeDeMadeiraPedra");
+        }
+    }
+    
+    public class ParedeDeMadeiraFerro extends RecursoBase {
+        public ParedeDeMadeiraFerro() {
+            super("ParedeDeMadeiraFerro");
+        }
+    }
+    
+    public class ParedeDePedraFerro extends RecursoBase {
+        public ParedeDePedraFerro() {
+            super("ParedeDePedraFerro");
         }
     }
 
-    public static class Ferro extends RecursoBase {
-        public Ferro(String produtorNome) {
-            super("Ferro", produtorNome);
-        }
-    }
 }
+
