@@ -1,5 +1,8 @@
 package programa.multithread;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,18 +10,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import programa.multithread.Recurso.Ferro;
-import programa.multithread.Recurso.Madeira;
-import programa.multithread.Recurso.Pedra;
-
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
     private BitmapFont font;
 
     private Armazen armazem;
-    
-    
     
     private Produtor[] produtores;
     
@@ -32,7 +29,6 @@ public class Main extends ApplicationAdapter {
     private Consumidor consumidorB;
     private Consumidor consumidorC;
 
-    
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -57,9 +53,9 @@ public class Main extends ApplicationAdapter {
         	produtores[i].start();
         }
 
-        consumidorA = new Consumidor("ConsumidorA", 3.0,armazem, 0,1,3);
-        consumidorB = new Consumidor("ConsumidorB", 2.0,armazem,0,2,4);
-        consumidorC = new Consumidor("ConsumidorC", 4.0,armazem,1,2,5);
+        consumidorA = new Consumidor("ConsumidorA", 3.0,armazem, 0,1,0);
+        consumidorB = new Consumidor("ConsumidorB", 2.0,armazem,0,2,1);
+        consumidorC = new Consumidor("ConsumidorC", 4.0,armazem,1,2,2);
 
         consumidores[0] = consumidorA;
         consumidores[1] = consumidorB;
@@ -70,7 +66,6 @@ public class Main extends ApplicationAdapter {
         }
     }
     
-   
 
     @Override
     public void render() {
@@ -81,16 +76,32 @@ public class Main extends ApplicationAdapter {
 
         font.draw(batch, "Itens no armazém:", 20, 420);
         int x = 400;
-        for (String item : armazem.getItens()) {
-            font.draw(batch, "- " + item, 20, x);
+        
+        Map<String, Integer> estoqueRecursos = armazem.getRecursos();
+        
+        		
+        for(int i = 0; i < estoqueRecursos.size(); i++) {
+        	font.draw(batch, "Recurso: " + armazem.GetRecurso(i) + " / Quantidade: " + estoqueRecursos.get(armazem.GetRecurso(i)), 20, x);
             x -= 20;
         }
 
-        font.draw(batch, "Último recurso coletado: " + armazem.getUltimoRecurso(), 20, 280);
-        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutor(), 20, 260);
-        font.draw(batch, "Mensagem: " + armazem.getUltimaMensagem(), 20, 240);
+        font.draw(batch, "Último recurso adcionano: " + armazem.getUltimoProdutorMsg()[0], 20, 320);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoProdutorMsg()[1], 20, 300);
+        font.draw(batch, "Mensagem: " + armazem.getUltimoProdutorMsg()[2], 20, 280);
 
-        int y = 400;
+
+        Map<String, Integer> estoqueProdutos = armazem.getProdutos();
+        
+        int y = 200;
+        
+        for(int i = 0; i < estoqueProdutos.size(); i++) {
+        	font.draw(batch, "Produto: " + armazem.GetProduto(i) + " / Quantidade: " + estoqueProdutos.get(armazem.GetProduto(i)), 20, y);
+            y -= 20;
+        }
+        
+        font.draw(batch, "Último recurso adcionano: " + armazem.getUltimoConsumidorMsg()[0], 20, 120);
+        font.draw(batch, "Por produtor: " + armazem.getUltimoConsumidorMsg()[1], 20, 100);
+        font.draw(batch, "Mensagem: " + armazem.getUltimoConsumidorMsg()[2], 20, 80);
         
         batch.end();
     }

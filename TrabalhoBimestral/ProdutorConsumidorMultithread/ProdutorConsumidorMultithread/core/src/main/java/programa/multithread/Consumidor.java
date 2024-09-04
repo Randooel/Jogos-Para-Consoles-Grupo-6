@@ -12,7 +12,7 @@ public class Consumidor extends Thread {
     private int recursoProduzido;
 
     // Construtor
-    public Consumidor(String nome, double velocidadeConsumo, Armazen armazen, int recursoUtilizadoA, int recursoUtilizadoB, int recurosProduzido) {
+    public Consumidor(String nome, double velocidadeConsumo, Armazen armazen, int recursoUtilizadoA, int recursoUtilizadoB, int recursoProduzido) {
         this.armazem = armazen;
     	this.nome = nome;
         this.velocidadeConsumo = velocidadeConsumo;
@@ -27,13 +27,20 @@ public class Consumidor extends Thread {
     public void run() {
     	while (true) {
             try {
+            	long startTime = System.currentTimeMillis();
                 // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
                 Thread.sleep((long) (velocidadeConsumo * 1000));
 
-                if (!armazem.getItens().isEmpty() && TryConsumeItems()) {
+                if (TryConsumeItems()) {
 
                     // Aqui você pode adicionar lógica para usar o recurso consumido, por exemplo, construir um item
-                    utilizarRecurso( armazem.GetRecurso(recursoUtilizadoA), armazem.GetRecurso(recursoUtilizadoB));
+                    utilizarRecurso( armazem.GetProduto(recursoUtilizadoA), armazem.GetProduto(recursoUtilizadoB));
+                    
+                    long endTime = System.currentTimeMillis();
+                    long timeTaken = endTime - startTime;
+                    String mensagem = "Consumidor " + getNome() + " produziu " + armazem.GetProduto(recursoProduzido) + " em " + timeTaken + " milissegundos.";
+
+                    armazem.setUltimaConsumidorMensagem(mensagem);
                 } else {
                     System.out.println("Armazém sem recursos! " + nome + " está esperando por novos recursos.");
                 }
@@ -47,8 +54,8 @@ public class Consumidor extends Thread {
     private boolean TryConsumeItems() {
 		
     	if(armazem.HaveItemInList(recursoUtilizadoA) && armazem.HaveItemInList(recursoUtilizadoB)) {
-    		armazem.RemoveItem(recursoUtilizadoA);
-    		armazem.RemoveItem(recursoUtilizadoB);
+    		armazem.RemoveResourcesNoEstoque(recursoUtilizadoA);
+    		armazem.RemoveResourcesNoEstoque(recursoUtilizadoB);
     		return true;	
     	}  	
 		return false;
@@ -56,6 +63,7 @@ public class Consumidor extends Thread {
 
 	// Método para utilizar o recurso consumido
     public void utilizarRecurso(String recursoA, String recursoB) {
+    	armazem.adicionarProduto(recursoProduzido, nome);
         System.out.println(nome + " está utilizando os recursos: " + recursoA + " e " + recursoB);
     }
 

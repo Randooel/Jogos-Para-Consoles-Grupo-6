@@ -10,7 +10,7 @@ public class Produtor extends Thread{
     protected int recursoID;
     private Random random;
 
-    public Produtor(String nome, double velocidadeProducao, Armazen armazem,int recursoID) {
+    public Produtor(String nome, double velocidadeProducao, Armazen armazem, int recursoID) {
         this.nome = nome;
         this.velocidadeProducao = velocidadeProducao;
         this.armazem = armazem;
@@ -25,7 +25,7 @@ public class Produtor extends Thread{
     public void run() {
             while (true) {
                 try {
-                    if (armazem.isCheio()) {
+                    if (armazem.isCheio(recursoID)) {
                         System.out.println("O armazém está cheio. Aguardando espaço para continuar a produção...");
                         Thread.sleep(1000);
                         continue;
@@ -40,7 +40,7 @@ public class Produtor extends Thread{
                     long timeTaken = endTime - startTime;
                     String mensagem = "Produtor " + getNome() + " produziu " + armazem.GetRecurso(recursoID) + " em " + timeTaken + " milissegundos.";
                     System.out.println(mensagem);
-                    armazem.setUltimaMensagem(mensagem);
+                    armazem.setUltimaProdutorMensagem(mensagem);
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
