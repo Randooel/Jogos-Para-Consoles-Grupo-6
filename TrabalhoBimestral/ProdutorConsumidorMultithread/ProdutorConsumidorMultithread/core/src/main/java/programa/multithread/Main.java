@@ -49,9 +49,6 @@ public class Main extends ApplicationAdapter {
         produtores[1] = produtorAstrolabio;
         produtores[2] = produtorPedronildo;
         
-        for(int i = 0; i < produtores.length; i++) {
-        	produtores[i].start();
-        }
 
         consumidorA = new Consumidor("ConsumidorA", 3.0,armazem, 0,1,0);
         consumidorB = new Consumidor("ConsumidorB", 2.0,armazem,0,2,1);
@@ -61,9 +58,6 @@ public class Main extends ApplicationAdapter {
         consumidores[1] = consumidorB;
         consumidores[2] = consumidorC;
         
-        for(int i = 0; i < consumidores.length; i++) {
-        	consumidores[i].start();
-        }
     }
     
 
@@ -74,6 +68,16 @@ public class Main extends ApplicationAdapter {
         batch.begin();
         batch.draw(image, 140, 210);
 
+        
+
+        for(int i = 0; i < produtores.length; i++) {
+        	produtores[i].TentarProduzir();
+        }
+        
+        for(int i = 0; i < consumidores.length; i++) {
+        	consumidores[i].TentarConsumir();
+        }
+        
         font.draw(batch, "Itens no armazém:", 20, 420);
         int x = 400;
         

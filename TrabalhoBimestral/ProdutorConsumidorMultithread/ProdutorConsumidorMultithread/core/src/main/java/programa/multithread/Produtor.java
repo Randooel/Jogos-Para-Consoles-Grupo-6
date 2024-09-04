@@ -2,7 +2,7 @@ package programa.multithread;
 
 import java.util.Random;
 
-public class Produtor extends Thread{
+public class Produtor{
 
     private String nome;
     private double velocidadeProducao;
@@ -22,17 +22,13 @@ public class Produtor extends Thread{
         return nome;
     }
 
-    public void run() {
-            while (true) {
-                try {
+    public void TentarProduzir() {
                     if (armazem.isCheio(recursoID)) {
                         System.out.println("O armazém está cheio. Aguardando espaço para continuar a produção...");
-                        Thread.sleep(1000);
-                        continue;
+
                     }
 
                     long startTime = System.currentTimeMillis();
-                    Thread.sleep((long) (velocidadeProducao * 1000));
                     
                     armazem.adicionarRecurso(recursoID, nome);
                     long endTime = System.currentTimeMillis();
@@ -42,11 +38,7 @@ public class Produtor extends Thread{
                     System.out.println(mensagem);
                     armazem.setUltimaProdutorMensagem(mensagem);
 
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
+            
     }
 
     public void setVelocidadeProducao(double velocidade) {

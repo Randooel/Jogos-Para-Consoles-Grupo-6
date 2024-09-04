@@ -2,7 +2,7 @@ package programa.multithread;
 
 import java.util.Random;
 
-public class Consumidor extends Thread {
+public class Consumidor {
 
     private String nome;
     private double velocidadeConsumo;
@@ -22,14 +22,10 @@ public class Consumidor extends Thread {
         this.recursoUtilizadoB = recursoUtilizadoB;
         this.recursoProduzido = recursoProduzido;
     }
-
-    @Override
-    public void run() {
-    	while (true) {
-            try {
+    
+    public void TentarConsumir() {
             	long startTime = System.currentTimeMillis();
                 // Simula o tempo necessário para consumir um recurso com base na velocidade de consumo
-                Thread.sleep((long) (velocidadeConsumo * 1000));
 
                 if (TryConsumeItems()) {
 
@@ -44,11 +40,6 @@ public class Consumidor extends Thread {
                 } else {
                     System.out.println("Armazém sem recursos! " + nome + " está esperando por novos recursos.");
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
     }
 
     private boolean TryConsumeItems() {
