@@ -38,7 +38,7 @@ public class Consumidor extends Thread {
                     
                     long endTime = System.currentTimeMillis();
                     long timeTaken = endTime - startTime;
-                    String mensagem = "Consumidor " + getNome() + " produziu " + armazem.GetProduto(recursoProduzido) + " em " + timeTaken + " milissegundos.";
+                    String mensagem = "Consumidor " + getNome() + " produziu " + armazem.GetProduto(recursoProduzido) + " em " + timeTaken + " ms.";
 
                     armazem.setUltimaConsumidorMensagem(mensagem);
                 } else {

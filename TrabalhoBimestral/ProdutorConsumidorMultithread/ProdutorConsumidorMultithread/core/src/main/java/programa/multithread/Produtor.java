@@ -38,7 +38,7 @@ public class Produtor extends Thread{
                     long endTime = System.currentTimeMillis();
 
                     long timeTaken = endTime - startTime;
-                    String mensagem = "Produtor " + getNome() + " produziu " + armazem.GetRecurso(recursoID) + " em " + timeTaken + " milissegundos.";
+                    String mensagem = "Produtor " + getNome() + " produziu " + armazem.GetRecurso(recursoID) + " em " + timeTaken + " ms.";
                     System.out.println(mensagem);
                     armazem.setUltimaProdutorMensagem(mensagem);
 
