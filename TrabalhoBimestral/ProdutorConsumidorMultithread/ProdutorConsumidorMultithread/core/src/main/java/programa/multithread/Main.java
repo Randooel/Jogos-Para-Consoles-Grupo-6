@@ -50,9 +50,9 @@ public class Main extends ApplicationAdapter {
         produtores[2] = produtorPedronildo;
         
 
-        consumidorA = new Consumidor("ConsumidorA", 3.0,armazem, 0,1,0);
+        consumidorA = new Consumidor("ConsumidorA", 1.5,armazem, 0,1,0);
         consumidorB = new Consumidor("ConsumidorB", 2.0,armazem,0,2,1);
-        consumidorC = new Consumidor("ConsumidorC", 4.0,armazem,1,2,2);
+        consumidorC = new Consumidor("ConsumidorC", 3.5,armazem,1,2,2);
 
         consumidores[0] = consumidorA;
         consumidores[1] = consumidorB;
@@ -63,6 +63,9 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+    	long startTime = System.currentTimeMillis();
+    	float deltaTime = Gdx.graphics.getDeltaTime();  // Convertendo para milissegundos
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         batch.begin();
@@ -71,11 +74,11 @@ public class Main extends ApplicationAdapter {
         
 
         for(int i = 0; i < produtores.length; i++) {
-        	produtores[i].TentarProduzir();
+        	produtores[i].TentarProduzir(deltaTime);
         }
         
         for(int i = 0; i < consumidores.length; i++) {
-        	consumidores[i].TentarConsumir();
+        	consumidores[i].TentarConsumir(deltaTime);
         }
         
         font.draw(batch, "Itens no armazém:", 20, 420);
@@ -106,6 +109,12 @@ public class Main extends ApplicationAdapter {
         font.draw(batch, "Último recurso adcionano: " + armazem.getUltimoConsumidorMsg()[0], 20, 120);
         font.draw(batch, "Por produtor: " + armazem.getUltimoConsumidorMsg()[1], 20, 100);
         font.draw(batch, "Mensagem: " + armazem.getUltimoConsumidorMsg()[2], 20, 80);
+        
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+        font.draw(batch, "Tempo para completar mostar mudança: " + timeTaken, 20, 40);
+        System.out.println("Tempo para completar mostar mudança: " + timeTaken);
+        
         
         batch.end();
     }

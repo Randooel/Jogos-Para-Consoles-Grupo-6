@@ -6,6 +6,7 @@ public class Produtor{
 
     private String nome;
     private double velocidadeProducao;
+    private double tempoAtual = 0;
     private Armazen armazem;
     protected int recursoID;
     private Random random;
@@ -22,7 +23,13 @@ public class Produtor{
         return nome;
     }
 
-    public void TentarProduzir() {
+    public void TentarProduzir(float deltaTime) {
+    	
+    	if(tempoAtual < velocidadeProducao){
+    		tempoAtual += deltaTime;
+    	}
+        else{
+        	tempoAtual =0;
                     if (armazem.isCheio(recursoID)) {
                         System.out.println("O armazém está cheio. Aguardando espaço para continuar a produção...");
 
@@ -37,8 +44,9 @@ public class Produtor{
                     String mensagem = "Produtor " + getNome() + " produziu " + armazem.GetRecurso(recursoID) + " em " + timeTaken + " ms.";
                     System.out.println(mensagem);
                     armazem.setUltimaProdutorMensagem(mensagem);
+                    
 
-            
+        }
     }
 
     public void setVelocidadeProducao(double velocidade) {
