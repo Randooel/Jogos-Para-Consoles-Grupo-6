@@ -3,7 +3,7 @@ package programa.multithread;
 public class ConsumidorB extends Consumidor {
 
     public ConsumidorB(String nome, double velocidadeConsumo) {
-        super(nome, velocidadeConsumo);
+        super(nome, velocidadeConsumo, 3000.0);
     }
 
     @Override

@@ -3,7 +3,7 @@ package programa.multithread;
 public class ProdutorPedronildo extends Produtor {
 
     public ProdutorPedronildo(Armazen armazem) {
-        super("Pedronildo", 1.5, armazem);
+        super("Pedronildo", 1.5, 2000.0, armazem);
     }
 
     @Override

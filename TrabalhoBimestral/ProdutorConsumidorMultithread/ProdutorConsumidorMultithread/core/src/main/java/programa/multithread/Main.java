@@ -26,27 +26,31 @@ public class Main extends ApplicationAdapter {
         image = new Texture(Gdx.files.internal("libgdx.png"));
         font = new BitmapFont();
 
-        armazem = new Armazen(5);
+        armazem = new Armazen(20);
 
         produtorCarinaldo = new ProdutorCarinaldo(armazem);
         produtorAstrolabio = new ProdutorAstrolabio(armazem);
         produtorPedronildo = new ProdutorPedronildo(armazem);
 
-        consumidorA = new ConsumidorA("ConsumidorA", 3.0);
-        consumidorB = new ConsumidorB("ConsumidorB", 2.0);
-        consumidorC = new ConsumidorC("ConsumidorC", 4.0);
-
-        produtorCarinaldo.iniciarProducao();
-        produtorAstrolabio.iniciarProducao();
-        produtorPedronildo.iniciarProducao();
-
-        consumidorA.consumirRecurso(armazem);
-        consumidorB.consumirRecurso(armazem);
-        consumidorC.consumirRecurso(armazem);
+        consumidorA = new ConsumidorA("ConsumidorA", 200.0);
+        consumidorB = new ConsumidorB("ConsumidorB", 200.0);
+        consumidorC = new ConsumidorC("ConsumidorC", 200.0);
     }
 
     @Override
     public void render() {
+        float deltaTime = Gdx.graphics.getDeltaTime() * 1000;  // Convertendo para milissegundos
+
+        // Produção de recursos
+        produtorCarinaldo.produzirRecurso(deltaTime);
+        produtorAstrolabio.produzirRecurso(deltaTime);
+        produtorPedronildo.produzirRecurso(deltaTime);
+
+        // Consumo de recursos com delay
+        consumidorA.consumirRecurso(armazem, deltaTime);
+        consumidorB.consumirRecurso(armazem, deltaTime);
+        consumidorC.consumirRecurso(armazem, deltaTime);
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         batch.begin();
